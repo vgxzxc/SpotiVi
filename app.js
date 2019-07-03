@@ -8,15 +8,15 @@ var express      = require('express'),
     path         = require('path');
 
 
-var client_id     = '6887d234af53474bb73e2fc0811b0125'
-var client_secret = '5ddc3339f3df4ce8a11912be0ac98a0b'
-var redirect_uri  = 'http://localhost:8888/callback'
+// var client_id     = '6887d234af53474bb73e2fc0811b0125'
+// var client_secret = '5ddc3339f3df4ce8a11912be0ac98a0b'
+// var redirect_uri  = 'http://localhost:8888/callback'
 
 var app = express();
-var stateKey = 'spotify_auth_state';
+// var stateKey = 'spotify_auth_state';
 
-var access_token = null;
-var refresh_token = null;
+// var access_token = null;
+// var refresh_token = null;
 
 var routes = require("./helpers/endpoints")
 

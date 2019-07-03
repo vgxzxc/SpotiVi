@@ -5,7 +5,8 @@ var express      = require('express'),
     querystring  = require('querystring'),
     // cookieParser = require('cookie-parser'),
     keypress     = require('keypress'),
-    path         = require('path');
+    path         = require('path'),
+    commands     = require('./command');
 
 var router = express.Router();
 
@@ -32,7 +33,7 @@ router.get('/login', function(req, res){
   res.cookie(stateKey, state)
 
   //application request authorization
-  var scope = 'user-read-private, user-read-email, streaming'
+  var scope = 'user-read-private, user-read-email, streaming, user-read-playback-state'
   res.redirect('https://accounts.spotify.com/authorize?' + 
                 querystring.stringify({
                   response_type: 'code',
@@ -128,29 +129,29 @@ router.get('/test', function(req, res){
 
 router.post('/command', function(req, res){
   console.log("This endpoint was triggered.");
-  console.log(req.body);
+  commands(req.body['key'], access_token);
 
-  var options = {
-    //url: 'https://api.spotify.com/v1/me/player/pause',
-    headers: { 'Authorization': 'Bearer ' + access_token,
-               'Accept': 'application/json',
-               'Content-Type': 'application/json'
-               },
-    json: true
-  };
+  // var options = {
+  //   //url: 'https://api.spotify.com/v1/me/player/pause',
+  //   headers: { 'Authorization': 'Bearer ' + access_token,
+  //              'Accept': 'application/json',
+  //              'Content-Type': 'application/json'
+  //              },
+  //   json: true
+  // };
 
-  if (req.body['key'] == 'p'){
-    options['url'] = 'https://api.spotify.com/v1/me/player/play'
-  }
-  else if (req.body['key'] == 'k'){
-    options['url'] = 'https://api.spotify.com/v1/me/player/pause'
-  } else if (req.body)
-  console.log("These are the options");
-  console.log(options);
-  request.put(options, function(err, res, body){
-    console.log("The request request happened!");
-  });
-  console.log("And then this happens? Idk tho")
+  // if (req.body['key'] == 'p'){
+  //   options['url'] = 'https://api.spotify.com/v1/me/player/play'
+  // }
+  // else if (req.body['key'] == 'k'){
+  //   options['url'] = 'https://api.spotify.com/v1/me/player/pause'
+  // } else if (req.body)
+  // console.log("These are the options");
+  // console.log(options);
+  // request.put(options, function(err, res, body){
+  //   console.log("The request request happened!");
+  // });
+  // console.log("And then this happens? Idk tho")
 
   res.redirect('/test');
 });
