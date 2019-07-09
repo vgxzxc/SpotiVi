@@ -48,6 +48,8 @@ var playPause = function(token){
             });
         }
         else {
+            console.log(body)
+            console.log(err);
             console.log("The else happens");
         }
     });
@@ -126,6 +128,8 @@ var toggleShuffle = function(token){
             });
         }
         else {
+            console.log(body)
+            console.log(err);
             console.log("The else happens");
         }
     });
@@ -165,6 +169,8 @@ var toggleRepeat = function(token){
             });
         }
         else {
+            console.log(body)
+            console.log(err);
             console.log("The else happens");
         }
     });
