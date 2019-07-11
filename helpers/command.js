@@ -35,7 +35,13 @@ var playPause = function(token){
                      },
           json: true
         };
-        if (body["is_playing"] == true){
+        if (body === null){
+            console.log("Body is null, don't throw exception");
+        }
+        else if ('error' in body){
+            console.log("An error has occured");
+        }
+        else if (body["is_playing"] == true){
             putOptions['url'] = "https://api.spotify.com/v1/me/player/pause"
             request.put(putOptions, function(err, res, body){
                 console.log("This worked.");
@@ -51,6 +57,7 @@ var playPause = function(token){
             console.log(body)
             console.log(err);
             console.log("The else happens");
+            console.log("It is this else that happens");
         }
     });
 };

@@ -1,9 +1,6 @@
 var express      = require('express'),
-    // bodyParser   = require('body-parser')
     request      = require('request'),
-    // cors         = require('cors'),
     querystring  = require('querystring'),
-    // cookieParser = require('cookie-parser'),
     keypress     = require('keypress'),
     path         = require('path'),
     commands     = require('./command');
@@ -17,6 +14,8 @@ var redirect_uri  = 'http://localhost:8888/callback'
 var stateKey = 'spotify_auth_state';
 var access_token = null;
 var refresh_token = null;
+
+var expiry_time = null;
 
 var generateRandomString = function(length){
   var text = '';
@@ -71,6 +70,10 @@ router.get('/callback', function(req, res){
       if (response.statusCode === 200 && !err){
         //var access_token = body.access_token;
         //var refresh_token = body.refresh_token;
+        var date = new Date();
+        console.log("The current time is: " + date.getTime());
+        expiry_time = date.getTime() + 3600000;
+        console.log("The expiry time is: " + expiry_time);
         access_token = body.access_token;
         refresh_token = body.refresh_token;
 
@@ -96,6 +99,7 @@ router.get('/callback', function(req, res){
 });
 
 router.get('/refresh_token', function(req, res){
+  console.log("The access token before was: " + access_token);
   //requesting access token from refresh token
   refresh_token = req.query.refresh_token;
   var authOptions = {
@@ -110,14 +114,20 @@ router.get('/refresh_token', function(req, res){
   };
 
   request.post(authOptions, function(err, response, body){
+    console.log("The request in refresh_token happens");
+    console.log(response.statusCode);
+    console.log(err);
     if (response.statusCode === 200 && !err){
       //var access_token = body.access_token;
+      console.log(body)
       access_token = body.access_token;
       res.send({
         'access_token' : access_token
       });
+      console.log("The access token now is: " + access_token);
     }
   });
+  res.redirect('/');
 });
 
 router.get('/test', function(req, res){
@@ -127,31 +137,25 @@ router.get('/test', function(req, res){
   });
 });
 
+router.get('/nothing', function(req, res){
+  request.get('localhost:8888/alsonothing', function(err, response, body){
+    console.log(err);
+  });
+  res.json({'test': 1});
+});
+
+router.get('/alsonothing', function(req, res){
+  console.log("The also nothing endpoint gets triggered");
+  res.json({'this': 2});
+});
+
 router.post('/command', function(req, res){
+  var current_time = new Date().getTime()
+  // if (current_time > expiry_time){
+  //   request.get("/refresh_token")
+  // }
   console.log("This endpoint was triggered.");
   commands(req.body['key'], access_token);
-
-  // var options = {
-  //   //url: 'https://api.spotify.com/v1/me/player/pause',
-  //   headers: { 'Authorization': 'Bearer ' + access_token,
-  //              'Accept': 'application/json',
-  //              'Content-Type': 'application/json'
-  //              },
-  //   json: true
-  // };
-
-  // if (req.body['key'] == 'p'){
-  //   options['url'] = 'https://api.spotify.com/v1/me/player/play'
-  // }
-  // else if (req.body['key'] == 'k'){
-  //   options['url'] = 'https://api.spotify.com/v1/me/player/pause'
-  // } else if (req.body)
-  // console.log("These are the options");
-  // console.log(options);
-  // request.put(options, function(err, res, body){
-  //   console.log("The request request happened!");
-  // });
-  // console.log("And then this happens? Idk tho")
 
   res.redirect('/test');
 });
