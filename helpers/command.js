@@ -1,5 +1,4 @@
-var express = require("express"),
-  request = require("request");
+var request = require("request");
 
 //Global Vars
 var g = "";
@@ -48,8 +47,13 @@ var playPause = function(token) {
       },
       json: true
     };
-    if (body === null) {
-      console.log("Body is null, don't throw exception");
+    if (body == null) {
+      console.log("THIS IS IN THE NULL BLOCK");
+      putOptions["url"] = "https://api.spotify.com/v1/me/player/pause";
+      request.put(putOptions, function(err, res, body) {
+        console.log(body);
+        console.log("THE NULL BLOCK WORKED");
+      });
     } else if ("error" in body) {
       console.log("An error has occured");
     } else if (body["is_playing"] == true) {
