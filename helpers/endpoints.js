@@ -29,6 +29,15 @@ var generateRandomString = function(length) {
   return text;
 };
 
+function delay() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(42);
+    }, 300);
+  });
+}
+
+// Login Route
 router.get("/login", function(req, res) {
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
@@ -48,6 +57,7 @@ router.get("/login", function(req, res) {
   );
 });
 
+// Callback for authorization
 router.get("/callback", function(req, res) {
   var code = req.query.code || null;
   var state = req.query.state || null;
@@ -114,6 +124,8 @@ router.get("/callback", function(req, res) {
   }
 });
 
+// Getting a refresh token
+// Might be deprecated
 router.get("/refresh_token", function(req, res) {
   console.log("The access token before was: " + access_token);
   console.log("================================================");
@@ -162,6 +174,7 @@ router.get("/refresh_token", function(req, res) {
   res.redirect("/test");
 });
 
+// This is my actual app
 router.get("/test", function(req, res) {
   console.log(access_token);
   res.sendFile("test.html", {
@@ -169,7 +182,11 @@ router.get("/test", function(req, res) {
   });
 });
 
-router.post("/command", function(req, res) {
+// Post request for executing a command
+router.post("/command", async (req, res) => {
+  console.log("This endpoint was triggered");
+
+  // Handle refresh token capability
   var current_time = new Date().getTime();
   if (current_time > expiry_time) {
     console.log("The access token before was: " + access_token);
@@ -192,10 +209,134 @@ router.post("/command", function(req, res) {
     );
   }
 
-  console.log("This endpoint was triggered.");
-  commands(req.body["key"], access_token);
+  // Perform actual command
+  await commands(req.body["key"], access_token);
+  // Wait a little bit
+  await delay();
 
-  res.redirect("/test");
+  // Return the new state of the player
+  // This needs refactoring
+  var getPlayerStateInfo = getCurrentPlayerState(access_token);
+
+  getPlayerStateInfo.then(
+    function(result) {
+      var info = {
+        shuffle: null,
+        repeat: null,
+        playing: null,
+        songName: null,
+        songArtists: [],
+        songAlbum: null,
+        songImageURL: null
+      };
+
+      info["shuffle"] = result["shuffle_state"];
+      info["repeat"] = result["repeat_state"];
+      info["playing"] = result["is_playing"];
+
+      info["songName"] = result["item"]["name"];
+      result["item"]["artists"].forEach(function(item) {
+        info["songArtists"].push(item["name"]);
+      });
+      info["songAlbum"] = result["item"]["album"]["name"];
+      info["songImageURL"] = result["item"]["album"]["images"][0]["url"];
+
+      console.log(typeof info["playing"]);
+
+      console.log("This is the info");
+      console.log(info);
+
+      res.json(info);
+    },
+    function(err) {
+      res.json(err);
+    }
+  );
 });
+
+var getCurrentPlayerState = function(access_token) {
+  var getOptions = {
+    url: "https://api.spotify.com/v1/me/player/",
+    headers: { Authorization: "Bearer " + access_token },
+    json: true
+  };
+
+  return new Promise(function(resolve, reject) {
+    request.get(getOptions, function(err, response, body) {
+      if (response.statusCode === 200 && !err) {
+        resolve(body);
+      } else {
+        reject(err);
+      }
+    });
+  });
+};
+
+router.get("/player/playerstate", function(req, res) {
+  var getPlayerStateInfo = getCurrentPlayerState(access_token);
+
+  getPlayerStateInfo.then(
+    function(result) {
+      var info = {
+        shuffle: null,
+        repeat: null,
+        playing: null,
+        songName: null,
+        songArtists: [],
+        songAlbum: null,
+        songImageURL: null
+      };
+
+      info["shuffle"] = result["shuffle_state"];
+      info["repeat"] = result["repeat_state"];
+      info["playing"] = result["is_playing"];
+
+      info["songName"] = result["item"]["name"];
+      result["item"]["artists"].forEach(function(item) {
+        info["songArtists"].push(item["name"]);
+      });
+      info["songAlbum"] = result["item"]["album"]["name"];
+      info["songImageURL"] = result["item"]["album"]["images"][0]["url"];
+
+      console.log(typeof info["playing"]);
+
+      res.json(info);
+    },
+    function(err) {
+      res.json(err);
+    }
+  );
+});
+
+//var getPlaylists = function(access_token) {
+//  var getOptions = {
+//    url: "https://api.spotify.com/v1/me/playlists/",
+//    headers: { Authorization: "Bearer " + access_token },
+//    json: true
+//  };
+//
+//  return new Promise(function(resolve, reject) {
+//    request.get(getOptions, function(err, response, body) {
+//      if (response.statusCode === 200 && !err) {
+//        resolve(body);
+//      } else {
+//        reject(err);
+//      }
+//    });
+//  });
+//};
+//
+//router.get("/player/playlists", function(req, res) {
+//  var getPlaylistInfo = getPlaylists(access_token);
+//
+//  getPlaylistInfo.then(
+//    function(result) {
+//      res.json(result);
+//    },
+//    function(err) {
+//      res.json(err);
+//    }
+//  );
+//});
 
 module.exports = router;
