@@ -5,7 +5,8 @@ var express = require("express"),
   path = require("path"),
   commands = require("./command"),
   refreshTokenFunc = require("./refresh_token_func"),
-  playerStateFunc = require("./player_info");
+  playerStateFunc = require("./player_info"),
+  helperFuncs = require("./helper_functions");
 
 var router = express.Router();
 
@@ -41,7 +42,8 @@ function delay() {
 
 // Login Route
 router.get("/login", function(req, res) {
-  var state = generateRandomString(16);
+  // var state = generateRandomString(16);
+  var state = helperFuncs.generateRandomString(16);
   res.cookie(stateKey, state);
 
   //application request authorization
@@ -173,7 +175,7 @@ router.post("/command", async (req, res) => {
   // Perform actual command
   await commands(req.body["key"], access_token);
   // Wait a little bit
-  await delay();
+  await helperFuncs.delay();
 
   // Return the new state of the player
   // This needs refactoring
