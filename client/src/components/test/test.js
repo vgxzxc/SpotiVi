@@ -1,14 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import keydown from "react-keydown";
 
 class SongDetails extends React.Component {
   constructor() {
     super();
     this.state = {
-      shuffle: null,
+      shuffle: false,
       repeat: null,
-      playing: null,
+      playing: false,
       songName: null,
       songArtists: [],
       songAlbum: null,
@@ -54,6 +53,10 @@ class SongDetails extends React.Component {
         <h1>{this.state.songName}</h1>
         <h2>{this.formatArtists()}</h2>
         <h2>{this.state.songAlbum}</h2>
+        <h3> playing: {this.state.playing.toString()} </h3>
+        <h4>
+          shuffle: {this.state.shuffle.toString()} | repeat: {this.state.repeat}
+        </h4>
       </div>
     );
   }

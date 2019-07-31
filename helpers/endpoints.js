@@ -4,7 +4,8 @@ var express = require("express"),
   keypress = require("keypress"),
   path = require("path"),
   commands = require("./command"),
-  refreshTokenFunc = require("./refresh_token_func");
+  refreshTokenFunc = require("./refresh_token_func"),
+  playerStateFunc = require("./player_info");
 
 var router = express.Router();
 
@@ -13,6 +14,7 @@ var client_secret = "5ddc3339f3df4ce8a11912be0ac98a0b";
 var redirect_uri = "http://localhost:8888/callback";
 
 var stateKey = "spotify_auth_state";
+
 var access_token = null;
 var refresh_token = null;
 
@@ -87,18 +89,10 @@ router.get("/callback", function(req, res) {
         //var access_token = body.access_token;
         //var refresh_token = body.refresh_token;
         var date = new Date();
-        console.log("The current time is: " + date.getTime());
         expiry_time = date.getTime() + 3590000;
-        console.log("The expiry time is: " + expiry_time);
-
-        console.log(
-          "When authorizing, this is the refresh_token: " + body.refresh_token
-        );
 
         access_token = body.access_token;
         refresh_token = body.refresh_token;
-
-        console.log("Refresh token now is: " + refresh_token);
 
         var options = {
           url: "https://api.spotify.com/v1/me",
@@ -124,11 +118,8 @@ router.get("/callback", function(req, res) {
   }
 });
 
-// Getting a refresh token
-// Might be deprecated
 router.get("/refresh_token", function(req, res) {
   console.log("The access token before was: " + access_token);
-  console.log("================================================");
   var initializeNewAccessToken = refreshTokenFunc(
     refresh_token,
     client_id,
@@ -144,33 +135,6 @@ router.get("/refresh_token", function(req, res) {
       console.log(err);
     }
   );
-
-  //access_token = refreshTokenFunc(refresh_token, client_id, client_secret);
-
-  // //requesting access token from refresh token
-  // var authOptions = {
-  //   url: "https://accounts.spotify.com/api/token",
-  //   headers: {
-  //     Authorization:
-  //       "Basic " +
-  //       new Buffer(client_id + ":" + client_secret).toString("base64")
-  //   },
-  //   form: {
-  //     grant_type: "refresh_token",
-  //     refresh_token: refresh_token
-  //   },
-  //   json: true
-  // };
-
-  // request.post(authOptions, function(err, response, body) {
-  //   console.log("The request in refresh_token happens");
-  //   if (response.statusCode === 200 && !err) {
-  //     access_token = body.access_token;
-  //     console.log("The access token now is: " + access_token);
-  //     var date = new Date();
-  //     expiry_time = date.getTime() + 3590000;
-  //   }
-  // });
   res.redirect("/test");
 });
 
@@ -184,13 +148,10 @@ router.get("/test", function(req, res) {
 
 // Post request for executing a command
 router.post("/command", async (req, res) => {
-  console.log("This endpoint was triggered");
-
   // Handle refresh token capability
   var current_time = new Date().getTime();
   if (current_time > expiry_time) {
     console.log("The access token before was: " + access_token);
-    console.log("================================================");
     var initializeNewAccessToken = refreshTokenFunc(
       refresh_token,
       client_id,
