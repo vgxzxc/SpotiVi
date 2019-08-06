@@ -1,4 +1,4 @@
-var express = require("express"),
+const express = require("express"),
   request = require("request"),
   querystring = require("querystring"),
   keypress = require("keypress"),
@@ -8,46 +8,26 @@ var express = require("express"),
   playerStateFunc = require("./player_info"),
   helperFuncs = require("./helper_functions");
 
-var router = express.Router();
+const router = express.Router();
 
-var client_id = "6887d234af53474bb73e2fc0811b0125";
-var client_secret = "5ddc3339f3df4ce8a11912be0ac98a0b";
-var redirect_uri = "http://localhost:8888/callback";
+const client_id = "6887d234af53474bb73e2fc0811b0125";
+const client_secret = "5ddc3339f3df4ce8a11912be0ac98a0b";
+const redirect_uri = "http://localhost:8888/callback";
 
-var stateKey = "spotify_auth_state";
+const stateKey = "spotify_auth_state";
 
-var access_token = null;
-var refresh_token = null;
-
-var expiry_time = null;
-
-var generateRandomString = function(length) {
-  var text = "";
-  var possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (var i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
-
-function delay() {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(42);
-    }, 300);
-  });
-}
+let access_token = null;
+let refresh_token = null;
+let expiry_time = null;
 
 // Login Route
-router.get("/login", function(req, res) {
+router.get("/login", (req, res) => {
   // var state = generateRandomString(16);
-  var state = helperFuncs.generateRandomString(16);
+  let state = helperFuncs.generateRandomString(16);
   res.cookie(stateKey, state);
 
   //application request authorization
-  var scope =
+  const scope =
     "user-read-private, user-read-email, streaming, user-read-playback-state, user-modify-playback-state";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
@@ -62,16 +42,16 @@ router.get("/login", function(req, res) {
 });
 
 // Callback for authorization
-router.get("/callback", function(req, res) {
-  var code = req.query.code || null;
-  var state = req.query.state || null;
-  var storedState = req.cookies ? req.cookies[stateKey] : null;
+router.get("/callback", (req, res) => {
+  let code = req.query.code || null;
+  let state = req.query.state || null;
+  let storedState = req.cookies ? req.cookies[stateKey] : null;
 
   if (state === null || state != storedState) {
     res.redirect("/#" + querystring.stringify({ error: "state_mismatch" }));
   } else {
     res.clearCookie(stateKey);
-    var authOptions = {
+    let authOptions = {
       url: "https://accounts.spotify.com/api/token",
       form: {
         code: code,
@@ -86,33 +66,32 @@ router.get("/callback", function(req, res) {
       json: true
     };
 
-    request.post(authOptions, function(err, response, body) {
+    request.post(authOptions, (err, response, body) => {
       if (response.statusCode === 200 && !err) {
-        //var access_token = body.access_token;
-        //var refresh_token = body.refresh_token;
-        var date = new Date();
+        let date = new Date();
         expiry_time = date.getTime() + 3590000;
 
         access_token = body.access_token;
         refresh_token = body.refresh_token;
 
-        var options = {
+        let options = {
           url: "https://api.spotify.com/v1/me",
           headers: { Authorization: "Bearer " + access_token },
           json: true
         };
 
-        request.get(options, function(err, res, body) {
+        request.get(options, (get_err, get_res, get_body) => {
           console.log(body);
+          res.redirect("http://localhost:3000");
         });
 
-        res.redirect(
-          "/#" +
-            querystring.stringify({
-              access_token: access_token,
-              refresh_token: refresh_token
-            })
-        );
+        // res.redirect(
+        //   "/#" +
+        //     querystring.stringify({
+        //       access_token: access_token,
+        //       refresh_token: refresh_token
+        //     })
+        // );
       } else {
         res.redirect("/#" + querystring.stringify({ error: "invalid_token" }));
       }
@@ -120,19 +99,19 @@ router.get("/callback", function(req, res) {
   }
 });
 
-router.get("/refresh_token", function(req, res) {
+router.get("/refresh_token", (req, res) => {
   console.log("The access token before was: " + access_token);
-  var initializeNewAccessToken = refreshTokenFunc(
+  let initializeNewAccessToken = refreshTokenFunc(
     refresh_token,
     client_id,
     client_secret
   );
   initializeNewAccessToken.then(
-    function(result) {
+    result => {
       access_token = result;
       console.log("The access token now is: " + access_token);
     },
-    function(err) {
+    err => {
       console.log("The error callback happens");
       console.log(err);
     }
@@ -140,18 +119,16 @@ router.get("/refresh_token", function(req, res) {
   res.redirect("/test");
 });
 
-// This is my actual app
-router.get("/test", function(req, res) {
+router.get("/test", (req, res) => {
   console.log(access_token);
   res.sendFile("test.html", {
     root: path.join(__dirname, "../public/")
   });
 });
 
-// Post request for executing a command
 router.post("/command", async (req, res) => {
   // Handle refresh token capability
-  var current_time = new Date().getTime();
+  let current_time = new Date().getTime();
   if (current_time > expiry_time) {
     console.log("The access token before was: " + access_token);
     var initializeNewAccessToken = refreshTokenFunc(
@@ -160,12 +137,12 @@ router.post("/command", async (req, res) => {
       client_secret
     );
     initializeNewAccessToken.then(
-      function(result) {
+      result => {
         access_token = result;
         console.log("The access token now is: " + access_token);
         expiry_time = new Date().getTime() + 3590000;
       },
-      function(err) {
+      err => {
         console.log("The error callback happens");
         console.log(err);
       }
@@ -179,11 +156,11 @@ router.post("/command", async (req, res) => {
 
   // Return the new state of the player
   // This needs refactoring
-  var getPlayerStateInfo = getCurrentPlayerState(access_token);
+  let getPlayerStateInfo = getCurrentPlayerState(access_token);
 
   getPlayerStateInfo.then(
-    function(result) {
-      var info = {
+    result => {
+      let info = {
         shuffle: null,
         repeat: null,
         playing: null,
@@ -198,34 +175,29 @@ router.post("/command", async (req, res) => {
       info["playing"] = result["is_playing"];
 
       info["songName"] = result["item"]["name"];
-      result["item"]["artists"].forEach(function(item) {
+      result["item"]["artists"].forEach(item => {
         info["songArtists"].push(item["name"]);
       });
       info["songAlbum"] = result["item"]["album"]["name"];
       info["songImageURL"] = result["item"]["album"]["images"][0]["url"];
 
-      console.log(typeof info["playing"]);
-
-      console.log("This is the info");
-      console.log(info);
-
       res.json(info);
     },
-    function(err) {
+    err => {
       res.json(err);
     }
   );
 });
 
-var getCurrentPlayerState = function(access_token) {
-  var getOptions = {
+let getCurrentPlayerState = access_token => {
+  let getOptions = {
     url: "https://api.spotify.com/v1/me/player/",
     headers: { Authorization: "Bearer " + access_token },
     json: true
   };
 
-  return new Promise(function(resolve, reject) {
-    request.get(getOptions, function(err, response, body) {
+  return new Promise((resolve, reject) => {
+    request.get(getOptions, (err, response, body) => {
       if (response.statusCode === 200 && !err) {
         resolve(body);
       } else {
@@ -235,12 +207,12 @@ var getCurrentPlayerState = function(access_token) {
   });
 };
 
-router.get("/player/playerstate", function(req, res) {
-  var getPlayerStateInfo = getCurrentPlayerState(access_token);
+router.get("/player/playerstate", (req, res) => {
+  let getPlayerStateInfo = getCurrentPlayerState(access_token);
 
   getPlayerStateInfo.then(
-    function(result) {
-      var info = {
+    result => {
+      let info = {
         shuffle: null,
         repeat: null,
         playing: null,
@@ -255,20 +227,22 @@ router.get("/player/playerstate", function(req, res) {
       info["playing"] = result["is_playing"];
 
       info["songName"] = result["item"]["name"];
-      result["item"]["artists"].forEach(function(item) {
+      result["item"]["artists"].forEach(item => {
         info["songArtists"].push(item["name"]);
       });
       info["songAlbum"] = result["item"]["album"]["name"];
       info["songImageURL"] = result["item"]["album"]["images"][0]["url"];
 
-      console.log(typeof info["playing"]);
-
       res.json(info);
     },
-    function(err) {
+    err => {
       res.json(err);
     }
   );
+});
+
+router.get("/isAuthorized", (req, res) => {
+  res.json({ access_token: access_token });
 });
 
 //var getPlaylists = function(access_token) {

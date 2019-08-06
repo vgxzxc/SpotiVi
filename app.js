@@ -1,4 +1,4 @@
-var express = require("express"),
+const express = require("express"),
   bodyParser = require("body-parser"),
   request = require("request"),
   cors = require("cors"),
@@ -7,8 +7,8 @@ var express = require("express"),
   keypress = require("keypress"),
   path = require("path");
 
-var app = express();
-var routes = require("./helpers/endpoints");
+const app = express();
+const routes = require("./helpers/endpoints");
 
 app
   .use(express.static(__dirname + "/public"))

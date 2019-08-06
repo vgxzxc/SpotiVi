@@ -1,7 +1,7 @@
-var request = require("request");
+const request = require("request");
 
 //Global Vars
-var g = "";
+let g = "";
 
 // var triggerEndpoint = async function(key, token) {
 async function triggerEndpoint(key, token) {
@@ -53,16 +53,16 @@ async function triggerEndpoint(key, token) {
   }
 }
 
-function playPause(token) {
-  var getOptions = {
+playPause = token => {
+  const getOptions = {
     url: "https://api.spotify.com/v1/me/player",
     headers: { Authorization: "Bearer " + token },
     json: true
   };
 
-  return new Promise(function(resolve, reject) {
-    request.get(getOptions, function(err, res, body) {
-      var putOptions = {
+  return new Promise((resolve, reject) => {
+    request.get(getOptions, (err, res, body) => {
+      const putOptions = {
         headers: {
           Authorization: "Bearer " + token,
           Accept: "application/json",
@@ -79,13 +79,13 @@ function playPause(token) {
         reject();
       } else if (body["is_playing"] == true) {
         putOptions["url"] = "https://api.spotify.com/v1/me/player/pause";
-        request.put(putOptions, function(err, res, body) {
+        request.put(putOptions, (err, res, body) => {
           console.log("Song has been paused");
           resolve();
         });
       } else if (body["is_playing"] == false) {
         putOptions["url"] = "https://api.spotify.com/v1/me/player/play";
-        request.put(putOptions, function(err, res, body) {
+        request.put(putOptions, (err, res, body) => {
           console.log("Song is now playing");
           resolve();
         });
@@ -94,10 +94,10 @@ function playPause(token) {
       }
     });
   });
-}
+};
 
-function skipForward(token) {
-  var options = {
+skipForward = token => {
+  const options = {
     url: "https://api.spotify.com/v1/me/player/next",
     headers: {
       Authorization: "Bearer " + token
@@ -105,8 +105,8 @@ function skipForward(token) {
     json: true
   };
 
-  return new Promise(function(resolve, reject) {
-    request.post(options, function(err, res, body) {
+  return new Promise((resolve, reject) => {
+    request.post(options, (err, res, body) => {
       if (err) {
         reject(err);
       } else {
@@ -115,17 +115,17 @@ function skipForward(token) {
       }
     });
   });
-}
+};
 
-var goBack = function(token) {
-  var getOptions = {
+goBack = token => {
+  const getOptions = {
     url: "https://api.spotify.com/v1/me/player",
     headers: { Authorization: "Bearer " + token },
     json: true
   };
   return new Promise((resolve, reject) => {
-    request.get(getOptions, function(err, res, body) {
-      var options = {
+    request.get(getOptions, (err, res, body) => {
+      let options = {
         headers: {
           Authorization: "Bearer " + token,
           Accept: "application/json",
@@ -141,14 +141,14 @@ var goBack = function(token) {
 
       if (body["progress_ms"] < 3000) {
         options["url"] = "https://api.spotify.com/v1/me/player/previous";
-        request.post(options, function(err, res, body) {
+        request.post(options, (err, res, body) => {
           console.log("I have gone to the previous track");
           resolve();
         });
       } else {
         options["url"] =
           "https://api.spotify.com/v1/me/player/seek?position_ms=0";
-        request.put(options, function(err, res, body) {
+        request.put(options, (err, res, body) => {
           console.log("I have started at the beginning of this track");
           resolve();
         });
@@ -157,16 +157,16 @@ var goBack = function(token) {
   });
 };
 
-var toggleShuffle = function(token) {
-  var getOptions = {
+toggleShuffle = token => {
+  const getOptions = {
     url: "https://api.spotify.com/v1/me/player",
     headers: { Authorization: "Bearer " + token },
     json: true
   };
 
   return new Promise((resolve, reject) => {
-    request.get(getOptions, function(err, res, body) {
-      var putOptions = {
+    request.get(getOptions, (err, res, body) => {
+      const putOptions = {
         url: "https://api.spotify.com/v1/me/player/shuffle",
         headers: {
           Authorization: "Bearer " + token,
@@ -183,13 +183,13 @@ var toggleShuffle = function(token) {
 
       if (body["shuffle_state"] == true) {
         putOptions["url"] = putOptions["url"] + "?state=false";
-        request.put(putOptions, function(err, res, body) {
+        request.put(putOptions, (err, res, body) => {
           console.log("Shuffle is disabled");
           resolve();
         });
       } else if (body["shuffle_state"] == false) {
         putOptions["url"] = putOptions["url"] + "?state=true";
-        request.put(putOptions, function(err, res, body) {
+        request.put(putOptions, (err, res, body) => {
           console.log("Shuffle is enabled");
           resolve();
         });
@@ -201,7 +201,7 @@ var toggleShuffle = function(token) {
   });
 };
 
-var toggleRepeat = function(token) {
+toggleRepeat = token => {
   var getOptions = {
     url: "https://api.spotify.com/v1/me/player",
     headers: { Authorization: "Bearer " + token },
@@ -209,7 +209,7 @@ var toggleRepeat = function(token) {
   };
 
   return new Promise((resolve, reject) => {
-    request.get(getOptions, function(err, res, body) {
+    request.get(getOptions, (err, res, body) => {
       var putOptions = {
         url: "https://api.spotify.com/v1/me/player/repeat",
         headers: {
@@ -227,19 +227,19 @@ var toggleRepeat = function(token) {
 
       if (body["repeat_state"] == "off") {
         putOptions["url"] = putOptions["url"] + "?state=context";
-        request.put(putOptions, function(err, res, body) {
+        request.put(putOptions, (err, res, body) => {
           console.log("Context repeat has been enabled");
           resolve();
         });
       } else if (body["repeat_state"] == "context") {
         putOptions["url"] = putOptions["url"] + "?state=track";
-        request.put(putOptions, function(err, res, body) {
+        request.put(putOptions, (err, res, body) => {
           console.log("Track repeat has been enabled");
           resolve();
         });
       } else if (body["repeat_state"] == "track") {
         putOptions["url"] = putOptions["url"] + "?state=off";
-        request.put(putOptions, function(err, res, body) {
+        request.put(putOptions, (err, res, body) => {
           console.log("Repeat has been disabled");
           resolve();
         });
@@ -251,41 +251,41 @@ var toggleRepeat = function(token) {
   });
 };
 
-// WIP !!!!!!! This is not a priority
-var firstSongOfPlaylist = function(token) {
-  if (g === "g") {
-    // Do all api calls
-    var getOptions = {
-      url: "https://api.spotify.com/v1/me/player/currently-playing",
-      headers: { Authorization: "Bearer " + token },
-      json: true
-    };
-    request.get(getOptions, function(err, res, body) {
-      var putOptions = {
-        headers: {
-          Authorization: "Bearer " + token,
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        json: true
-      };
-      if (body === null) {
-        console.log("Body is null, don't throw exception");
-      } else if ("error" in body) {
-        console.log("An error has occured");
-      } else {
-        var playlist_id = body["context"]["uri"].split(":").pop();
-        putOptions["url"] = "https://api.spotify.com/v1/me/player/pause";
-        request.put(putOptions, function(err, res, body) {
-          console.log("This worked.");
-        });
-      }
-    });
-    g = "";
-  } else {
-    g += "g";
-  }
-  console.log(g);
-};
+// // WIP !!!!!!! This is not a priority
+// var firstSongOfPlaylist = function(token) {
+//   if (g === "g") {
+//     // Do all api calls
+//     var getOptions = {
+//       url: "https://api.spotify.com/v1/me/player/currently-playing",
+//       headers: { Authorization: "Bearer " + token },
+//       json: true
+//     };
+//     request.get(getOptions, function(err, res, body) {
+//       var putOptions = {
+//         headers: {
+//           Authorization: "Bearer " + token,
+//           Accept: "application/json",
+//           "Content-Type": "application/json"
+//         },
+//         json: true
+//       };
+//       if (body === null) {
+//         console.log("Body is null, don't throw exception");
+//       } else if ("error" in body) {
+//         console.log("An error has occured");
+//       } else {
+//         var playlist_id = body["context"]["uri"].split(":").pop();
+//         putOptions["url"] = "https://api.spotify.com/v1/me/player/pause";
+//         request.put(putOptions, function(err, res, body) {
+//           console.log("This worked.");
+//         });
+//       }
+//     });
+//     g = "";
+//   } else {
+//     g += "g";
+//   }
+//   console.log(g);
+// };
 
 module.exports = triggerEndpoint;
