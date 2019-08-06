@@ -17,6 +17,9 @@ class SongDetails extends React.Component {
   }
 
   componentDidMount() {
+
+    window.addEventListener("focus", this.onFocus);
+
     fetch("/isAuthorized")
       .then(resp => resp.json())
       .then(respJson => {
@@ -24,6 +27,17 @@ class SongDetails extends React.Component {
       });
 
     document.addEventListener("keypress", this.handleKeyPress.bind(this));
+    fetch("/player/playerstate")
+      .then(res => res.json())
+      .then(songDetails => this.setState(songDetails));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("focus", this.onFocus);
+    document.removeEventListener("keypress", this.handleKeyPress.bind(this));
+  }
+
+  onFocus = () => {
     fetch("/player/playerstate")
       .then(res => res.json())
       .then(songDetails => this.setState(songDetails));
