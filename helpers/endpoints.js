@@ -22,7 +22,6 @@ let expiry_time = null;
 
 // Login Route
 router.get("/login", (req, res) => {
-  // var state = generateRandomString(16);
   let state = helperFuncs.generateRandomString(16);
   res.cookie(stateKey, state);
 

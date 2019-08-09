@@ -12,13 +12,17 @@ class SongDetails extends React.Component {
       songArtists: [],
       songAlbum: null,
       songImageURL: null,
-      authorized: null
+      authorized: null,
+      interval: 1000
     };
+
+    this.updateSongInfo = this.updateSongInfo.bind(this);
   }
 
   componentDidMount() {
-
     window.addEventListener("focus", this.onFocus);
+    window.addEventListener("blur", this.onBlur);
+    document.addEventListener("keypress", this.handleKeyPress.bind(this));
 
     fetch("/isAuthorized")
       .then(resp => resp.json())
@@ -26,14 +30,16 @@ class SongDetails extends React.Component {
         this.state["authorized"] = respJson["access_token"];
       });
 
-    document.addEventListener("keypress", this.handleKeyPress.bind(this));
     fetch("/player/playerstate")
       .then(res => res.json())
       .then(songDetails => this.setState(songDetails));
+
+    this.timer = setInterval(() => this.updateSongInfo(), this.state.interval);
   }
 
   componentWillUnmount() {
     window.removeEventListener("focus", this.onFocus);
+    window.removeEventListener("blur", this.onBlur);
     document.removeEventListener("keypress", this.handleKeyPress.bind(this));
   }
 
@@ -41,7 +47,21 @@ class SongDetails extends React.Component {
     fetch("/player/playerstate")
       .then(res => res.json())
       .then(songDetails => this.setState(songDetails));
-  }
+
+    this.timer = setInterval(() => this.updateSongInfo(), this.state.interval);
+  };
+
+  onBlur = () => {
+    console.log("The blur happens");
+    clearInterval(this.timer);
+  };
+
+  updateSongInfo = () => {
+    console.log("Update song info is happening every second");
+    fetch("/player/playerstate")
+      .then(res => res.json())
+      .then(songDetails => this.setState(songDetails));
+  };
 
   formatArtists() {
     return this.state.songArtists.join(", ");
@@ -73,15 +93,6 @@ class SongDetails extends React.Component {
   }
 
   render() {
-    // let authorized = null;
-    // fetch("/isAuthorized")
-    //   .then(resp => resp.json())
-    //   .then(respJson => {
-    //     authorized = respJson["access_token"];
-    //     console.log("This is authroized in the promise: " + authorized);
-    //   });
-    // console.log("This is authorized: " + authorized);
-
     if (this.state.authorized) {
       return (
         <div>
