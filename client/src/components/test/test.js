@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import "./test.css";
 
 class SongDetails extends React.Component {
   constructor() {
