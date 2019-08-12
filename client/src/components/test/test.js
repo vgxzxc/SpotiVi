@@ -98,6 +98,7 @@ class SongDetails extends React.Component {
       return (
         <div>
           <img src={this.state.songImageURL} />
+          <p> </p>
           <h1>{this.state.songName}</h1>
           <h2>{this.formatArtists()}</h2>
           <h2>{this.state.songAlbum}</h2>
