@@ -1,7 +1,7 @@
-var request = require("request");
+const request = require("request");
 
-var getCurrentPlayerState = function(access_token) {
-  var getOptions = {
+getCurrentPlayerState = access_token => {
+  const getOptions = {
     url: "https://api.spotify.com/v1/me/player/",
     headers: { Authorization: "Bearer " + access_token },
     json: true
@@ -18,12 +18,12 @@ var getCurrentPlayerState = function(access_token) {
   });
 };
 
-function playerState(access_token) {
-  var getPlayerStateInfo = getCurrentPlayerState(access_token);
+playerState = access_token => {
+  let getPlayerStateInfo = getCurrentPlayerState(access_token);
 
-  getPlayerStateInfo.then(function(result) {
+  getPlayerStateInfo.then(result => {
     return new Promise((resolve, reject) => {
-      var info = {
+      let info = {
         shuffle: null,
         repeat: null,
         playing: null,
@@ -49,6 +49,6 @@ function playerState(access_token) {
       resolve(info);
     });
   });
-}
+};
 
 module.exports = playerState;

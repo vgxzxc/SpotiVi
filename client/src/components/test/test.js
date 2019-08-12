@@ -110,6 +110,7 @@ class SongDetails extends React.Component {
     } else {
       return (
         <div>
+          <h1>SpotiVi</h1>
           <form action="http://localhost:8888/login" method="get">
             <input
               type="submit"

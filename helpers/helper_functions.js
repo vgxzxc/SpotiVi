@@ -16,7 +16,7 @@ function delay() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(42);
-    }, 300);
+    }, 250);
   });
 }
 

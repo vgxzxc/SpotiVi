@@ -20,6 +20,7 @@
     "express": "^4.17.1",
     "keypress": "^0.2.1",
     "querystring": "^0.2.0",
+    "react-bootstrap": "^1.0.0-beta.11",
     "request": "^2.88.0"
   },
   "devDependencies": {
