@@ -1,0 +1,48 @@
+#albumImage {
+    max-height: 50vh;
+}
+
+#songDetails {
+    padding: 5px;
+}
+
+#songName {
+    font-size: 10vh;
+
+}
+
+#songArtists {
+    font-size: 10vh;
+
+}
+
+#songAlbum {
+    font-size: 5vh;
+}
+
+#playingStatus {
+    font-size: 5vh;
+}
+
+.playerControls{
+}
+
+#play {
+    padding: 5px;
+}
+
+#shuffle {
+    padding: 5px;
+}
+
+#previous {
+    padding: 5px;
+}
+
+#next {
+    padding: 5px;
+}
+
+#repeat {
+    padding: 5px;
+}

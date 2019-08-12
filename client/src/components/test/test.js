@@ -93,20 +93,35 @@ class SongDetails extends React.Component {
       });
   }
 
+  playing() {
+    if (this.state.playing) {
+      return (<i class="fas fa-play" id="play"></i>);
+    } else {
+      return (<i class="fas fa-pause" id="play"></i>)
+    }
+  }
+
   render() {
     if (this.state.authorized) {
       return (
-        <div>
-          <img src={this.state.songImageURL} />
+        <div id="songDetails">
+          <img src={this.state.songImageURL} id="albumImage" />
           <p> </p>
-          <h1>{this.state.songName}</h1>
-          <h2>{this.formatArtists()}</h2>
-          <h2>{this.state.songAlbum}</h2>
-          <h3> playing: {this.state.playing.toString()} </h3>
+          <h1 id="songName">{this.state.songName}</h1>
+          <h2 id="songArtists">{this.formatArtists()}</h2>
+          <h2 id="songAlbum">{this.state.songAlbum}</h2>
+          <h3 id="playingStatus"> playing: {this.state.playing.toString()} </h3>
           <h4>
             shuffle: {this.state.shuffle.toString()} | repeat:{" "}
             {this.state.repeat}
           </h4>
+          <div class="playerControls">
+            <i class="fas fa-random" id="shuffle"></i>
+            <i class="fas fa-backward" id="previous"></i>
+            {this.playing()}
+            <i class="fas fa-forward" id="next"></i>
+            <i class="fas fa-retweet" id="repeat"></i>
+          </div>
         </div>
       );
     } else {
