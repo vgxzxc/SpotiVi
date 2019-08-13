@@ -95,38 +95,51 @@ class SongDetails extends React.Component {
 
   playing() {
     if (this.state.playing) {
-      return (<i class="fas fa-play" id="play"></i>);
+      return <i class="fas fa-pause fa-3x" id="play" />;
     } else {
-      return (<i class="fas fa-pause" id="play"></i>)
+      return <i class="fas fa-play fa-3x" id="play" />;
+    }
+  }
+
+  shuffle() {
+    if (this.state.shuffle) {
+      return <i class="fas fa-random active" id="shuffle" />;
+    } else {
+      return <i class="fas fa-random" id="shuffle" />;
+    }
+  }
+
+  repeat() {
+    if (this.state.repeat == "track") {
+      return <i class="fas fa-retweet active" id="repeat" />;
+    } else if (this.state.repeat == "context") {
+      return <i class="fas fa-retweet semi-active" id="repeat" />;
+    } else {
+      return <i class="fas fa-retweet" id="repeat" />;
     }
   }
 
   render() {
     if (this.state.authorized) {
       return (
-        <div id="songDetails">
+        <div class="main">
           <img src={this.state.songImageURL} id="albumImage" />
-          <p> </p>
+          <hr />
           <h1 id="songName">{this.state.songName}</h1>
           <h2 id="songArtists">{this.formatArtists()}</h2>
           <h2 id="songAlbum">{this.state.songAlbum}</h2>
-          <h3 id="playingStatus"> playing: {this.state.playing.toString()} </h3>
-          <h4>
-            shuffle: {this.state.shuffle.toString()} | repeat:{" "}
-            {this.state.repeat}
-          </h4>
           <div class="playerControls">
-            <i class="fas fa-random" id="shuffle"></i>
-            <i class="fas fa-backward" id="previous"></i>
+            {this.shuffle()}
+            <i class="fas fa-backward fa-2x" id="previous" />
             {this.playing()}
-            <i class="fas fa-forward" id="next"></i>
-            <i class="fas fa-retweet" id="repeat"></i>
+            <i class="fas fa-forward fa-2x" id="next" />
+            {this.repeat()}
           </div>
         </div>
       );
     } else {
       return (
-        <div>
+        <div class="main">
           <h1>SpotiVi</h1>
           <form action="http://localhost:8888/login" method="get">
             <input
@@ -134,6 +147,7 @@ class SongDetails extends React.Component {
               value="Log in with Spotify"
               name="Submit"
               id="frm1_submit"
+              class="btn btn-secondary btn-lg"
             />
           </form>
         </div>

@@ -1,48 +1,77 @@
+hr {
+  border-top: 1px solid #fff;
+}
+
 #albumImage {
-    max-height: 50vh;
+  max-height: 50vh;
 }
 
 #songDetails {
-    padding: 5px;
+  padding: 5px;
 }
 
 #songName {
-    font-size: 10vh;
-
+  font-size: 5vh;
 }
 
 #songArtists {
-    font-size: 10vh;
-
+  font-size: 3vh;
+  color: #b9b9b9;
 }
 
 #songAlbum {
-    font-size: 5vh;
+  font-size: 2vh;
+  color: #b9b9b9;
 }
 
 #playingStatus {
-    font-size: 5vh;
+  font-size: 5vh;
 }
 
-.playerControls{
+.main {
+  max-height: 100vh;
+}
+
+.playerControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* flex-direction: column; */
+  text-align: center;
+}
+
+.active {
+  color: #5daf5e;
+}
+
+.semi-active {
+  color: #bee6bf;
+}
+
+.grey {
+  color: #acacac;
 }
 
 #play {
-    padding: 5px;
+  padding: 15px;
 }
 
 #shuffle {
-    padding: 5px;
+  padding: 5px;
 }
 
 #previous {
-    padding: 5px;
+  padding: 8px;
 }
 
 #next {
-    padding: 5px;
+  padding: 8px;
 }
 
 #repeat {
-    padding: 5px;
+  padding: 5px;
+}
+
+.btn-secondary {
+  background-color: #5daf5e;
 }

@@ -13,6 +13,14 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  margin: auto;
 }
 
 .App-link {
