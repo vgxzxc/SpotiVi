@@ -123,33 +123,48 @@ class SongDetails extends React.Component {
     if (this.state.authorized) {
       return (
         <div class="main">
-          <img src={this.state.songImageURL} id="albumImage" />
-          <hr />
-          <h1 id="songName">{this.state.songName}</h1>
-          <h2 id="songArtists">{this.formatArtists()}</h2>
-          <h2 id="songAlbum">{this.state.songAlbum}</h2>
-          <div class="playerControls">
-            {this.shuffle()}
-            <i class="fas fa-backward fa-2x" id="previous" />
-            {this.playing()}
-            <i class="fas fa-forward fa-2x" id="next" />
-            {this.repeat()}
+          <div>
+            <img src={this.state.songImageURL} id="albumImage" />
+            <hr />
+            <h1 id="songName">{this.state.songName}</h1>
+            <h2 id="songArtists">{this.formatArtists()}</h2>
+            <h2 id="songAlbum">{this.state.songAlbum}</h2>
+            <div class="playerControls">
+              {this.shuffle()}
+              <i class="fas fa-backward fa-2x" id="previous" />
+              {this.playing()}
+              <i class="fas fa-forward fa-2x" id="next" />
+              {this.repeat()}
+            </div>
           </div>
+
+          {/* <div class="status-line">
+            <div class="help">
+              <h6>Press "?" for Help</h6>
+            </div>
+          </div> */}
         </div>
       );
     } else {
       return (
         <div class="main">
-          <h1>SpotiVi</h1>
+          <h1 id="title">
+            Spoti<span id="Vi-title">Vi</span>
+          </h1>
           <form action="http://localhost:8888/login" method="get">
             <input
               type="submit"
               value="Log in with Spotify"
               name="Submit"
-              id="frm1_submit"
+              id="login-button"
               class="btn btn-secondary btn-lg"
             />
           </form>
+
+          <div class="disclosure">
+            <h6>Made by Russell Islam</h6>
+            <h6>I am not a UX designer by any means</h6>
+          </div>
         </div>
       );
     }

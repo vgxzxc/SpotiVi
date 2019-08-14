@@ -48,10 +48,6 @@ hr {
   color: #bee6bf;
 }
 
-.grey {
-  color: #acacac;
-}
-
 #play {
   padding: 15px;
 }
@@ -74,4 +70,52 @@ hr {
 
 .btn-secondary {
   background-color: #5daf5e;
+}
+
+.status-line {
+  background-color: #5daf5e;
+  height: 2.5vh;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  /* height: 30px; */
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.help {
+  float: right;
+}
+
+#login-button {
+  font-size: 35px;
+  margin: 5px;
+  background-color: #5daf5e !important;
+  height: 10vh;
+  width: 40vh;
+}
+
+#title {
+  font-weight: bold;
+  padding-top: -1em;
+  padding-bottom: 0.15em;
+  font-size: 80px;
+}
+
+#Vi-title {
+  color: #5daf5e;
+  font-weight: normal !important;
+}
+
+.disclosure {
+  height: 5vh;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  margin-bottom: 20px;
+  color: #999999;
 }
