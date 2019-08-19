@@ -1,13 +1,13 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import SongDetails from "./components/test/test";
+import SongPlayer from "./components/player/player";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <SongDetails />
+        <SongPlayer />
       </header>
     </div>
   );

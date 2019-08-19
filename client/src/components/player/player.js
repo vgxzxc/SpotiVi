@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./test.css";
+import "./player.css";
 
-class SongDetails extends React.Component {
+class SongPlayer extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -73,7 +73,6 @@ class SongDetails extends React.Component {
       this.setState({ loading: false });
     }, 200);
 
-    // this.timer = setInterval(() => this.updateSongInfo(), this.state.interval);
   }
 
   componentWillUnmount() {
@@ -220,4 +219,4 @@ class SongDetails extends React.Component {
   }
 }
 
-export default SongDetails;
+export default SongPlayer;
