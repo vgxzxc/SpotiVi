@@ -1,9 +1,5 @@
 const request = require("request");
 
-//Global Vars
-let g = "";
-
-// var triggerEndpoint = async function(key, token) {
 async function triggerEndpoint(key, deviceID, token) {
   switch (key) {
     case " ":
@@ -71,8 +67,8 @@ playPause = (token, deviceID) => {
         json: true
       };
       if (body == null) {
-        // This happens when there is no active device
-        console.log("Body is null");
+        // This usually happens when there is no active device
+        // Transfer device to cached device ID, resume playback
         putOptions["url"] = "https://api.spotify.com/v1/me/player";
         putOptions["body"] = {
           "device_ids": [deviceID]
@@ -261,42 +257,5 @@ toggleRepeat = token => {
     });
   });
 };
-
-// // WIP !!!!!!! This is not a priority
-// var firstSongOfPlaylist = function(token) {
-//   if (g === "g") {
-//     // Do all api calls
-//     var getOptions = {
-//       url: "https://api.spotify.com/v1/me/player/currently-playing",
-//       headers: { Authorization: "Bearer " + token },
-//       json: true
-//     };
-//     request.get(getOptions, function(err, res, body) {
-//       var putOptions = {
-//         headers: {
-//           Authorization: "Bearer " + token,
-//           Accept: "application/json",
-//           "Content-Type": "application/json"
-//         },
-//         json: true
-//       };
-//       if (body === null) {
-//         console.log("Body is null, don't throw exception");
-//       } else if ("error" in body) {
-//         console.log("An error has occured");
-//       } else {
-//         var playlist_id = body["context"]["uri"].split(":").pop();
-//         putOptions["url"] = "https://api.spotify.com/v1/me/player/pause";
-//         request.put(putOptions, function(err, res, body) {
-//           console.log("This worked.");
-//         });
-//       }
-//     });
-//     g = "";
-//   } else {
-//     g += "g";
-//   }
-//   console.log(g);
-// };
 
 module.exports = triggerEndpoint;
