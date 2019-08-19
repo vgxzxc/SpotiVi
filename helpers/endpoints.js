@@ -149,7 +149,7 @@ router.post("/command", async (req, res) => {
   }
 
   // Perform actual command
-  await commands(req.body["key"], access_token);
+  await commands(req.body["key"], req.body["device_id"], access_token);
   // Wait a little bit
   await helperFuncs.delay();
 
@@ -166,9 +166,11 @@ router.post("/command", async (req, res) => {
         songName: null,
         songArtists: [],
         songAlbum: null,
-        songImageURL: null
+        songImageURL: null,
+        device_id: null
       };
 
+      info["device_id"] = result["device"]["id"];
       info["shuffle"] = result["shuffle_state"];
       info["repeat"] = result["repeat_state"];
       info["playing"] = result["is_playing"];

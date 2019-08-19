@@ -4,11 +4,11 @@ const request = require("request");
 let g = "";
 
 // var triggerEndpoint = async function(key, token) {
-async function triggerEndpoint(key, token) {
+async function triggerEndpoint(key, deviceID, token) {
   switch (key) {
     case " ":
       try {
-        await playPause(token);
+        await playPause(token, deviceID);
       } catch (error) {
         return error;
       }
@@ -53,7 +53,7 @@ async function triggerEndpoint(key, token) {
   }
 }
 
-playPause = token => {
+playPause = (token, deviceID) => {
   const getOptions = {
     url: "https://api.spotify.com/v1/me/player",
     headers: { Authorization: "Bearer " + token },
@@ -73,8 +73,19 @@ playPause = token => {
       if (body == null) {
         // This happens when there is no active device
         console.log("Body is null");
-        reject();
-      } else if ("error" in body) {
+        putOptions["url"] = "https://api.spotify.com/v1/me/player";
+        putOptions["body"] = {
+          "device_ids": [deviceID]
+        }
+        request.put(putOptions, (err, res, body) => {
+          console.log("Playback has been re-enabled")
+          putOptions["url"] = "https://api.spotify.com/v1/me/player/play";
+          delete putOptions.body;
+          request.put(putOptions, (err, res, body) => {
+            console.log("Song is now playing");
+            resolve();
+        });
+      })} else if ("error" in body) {
         console.log("An error has occured");
         reject();
       } else if (body["is_playing"] == true) {

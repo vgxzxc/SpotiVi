@@ -28,22 +28,33 @@ class SongDetails extends React.Component {
       .then(res => res.json())
       .then(songDetails => {
         if (songDetails === null) {
-          this.state["device_id"] = null;
+          this.setState({"device_id": null});
         } else {
           this.setState(songDetails);
-          this.setCookie();
+          this.setCookie("device_id", this.state.device_id);
         }
-
-        console.log(document.cookie);
       });
   }
 
-  setCookie() {
-    if (document.cookie === "") {
-      if (this.state.device_id !== null) {
-        document.cookie = "device_id=" + this.state.device_id;
-      }
+  setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+        let date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
     }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+  }
+
+  getCookie(name) {
+    let nameEQ = name + "=";
+    let ca = document.cookie.split(';');
+    for(let i=0;i < ca.length;i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
   }
 
   componentDidMount() {
@@ -54,7 +65,7 @@ class SongDetails extends React.Component {
     fetch("/isAuthorized")
       .then(resp => resp.json())
       .then(respJson => {
-        this.state["authorized"] = respJson["access_token"];
+        this.setState({"authorized": respJson["access_token"]});
       });
 
     this.getPlayerState();
@@ -72,21 +83,18 @@ class SongDetails extends React.Component {
   }
 
   onFocus = () => {
-    console.log("The focus happens");
     this.getPlayerState();
 
     this.timer = setInterval(() => this.updateSongInfo(), this.state.interval);
   };
 
   onBlur = () => {
-    console.log("The blur happens");
     clearInterval(this.timer);
   };
 
   updateSongInfo = () => {
-    console.log("Update song info is happening every second");
     this.getPlayerState();
-    // this.forceUpdate();
+    this.forceUpdate();
   };
 
   formatArtists() {
@@ -97,13 +105,13 @@ class SongDetails extends React.Component {
     console.log("The key that was pressed was: " + evt.key);
     fetch("/command", {
       method: "POST",
-      // body: evt.key,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        key: evt.key
+        key: evt.key,
+        device_id: this.getCookie("device_id")
       })
     })
       .then(resp => resp.json())
@@ -120,27 +128,27 @@ class SongDetails extends React.Component {
 
   playing() {
     if (this.state.playing) {
-      return <i class="fas fa-pause fa-3x" id="play" />;
+      return <i className="fas fa-pause fa-3x" id="play" />;
     } else {
-      return <i class="fas fa-play fa-3x" id="play" />;
+      return <i className="fas fa-play fa-3x" id="play" />;
     }
   }
 
   shuffle() {
     if (this.state.shuffle) {
-      return <i class="fas fa-random active" id="shuffle" />;
+      return <i className="fas fa-random active" id="shuffle" />;
     } else {
-      return <i class="fas fa-random" id="shuffle" />;
+      return <i className="fas fa-random" id="shuffle" />;
     }
   }
 
   repeat() {
-    if (this.state.repeat == "track") {
-      return <i class="fas fa-retweet active" id="repeat" />;
-    } else if (this.state.repeat == "context") {
-      return <i class="fas fa-retweet semi-active" id="repeat" />;
+    if (this.state.repeat === "track") {
+      return <i className="fas fa-retweet active" id="repeat" />;
+    } else if (this.state.repeat === "context") {
+      return <i className="fas fa-retweet semi-active" id="repeat" />;
     } else {
-      return <i class="fas fa-retweet" id="repeat" />;
+      return <i className="fas fa-retweet" id="repeat" />;
     }
   }
 
@@ -151,24 +159,24 @@ class SongDetails extends React.Component {
       if (this.state.authorized !== null) {
         if (this.state.device_id !== null) {
           return (
-            <div class="main">
+            <div className="main">
               <div>
                 <img src={this.state.songImageURL} id="albumImage" />
                 <hr />
                 <h1 id="songName">{this.state.songName}</h1>
                 <h2 id="songArtists">{this.formatArtists()}</h2>
                 <h2 id="songAlbum">{this.state.songAlbum}</h2>
-                <div class="playerControls">
+                <div className="playerControls">
                   {this.shuffle()}
-                  <i class="fas fa-backward fa-2x" id="previous" />
+                  <i className="fas fa-backward fa-2x" id="previous" />
                   {this.playing()}
-                  <i class="fas fa-forward fa-2x" id="next" />
+                  <i className="fas fa-forward fa-2x" id="next" />
                   {this.repeat()}
                 </div>
               </div>
 
-              {/* <div class="status-line">
-              <div class="help">
+              {/* <div className="status-line">
+              <div className="help">
                 <h6>Press "?" for Help</h6>
               </div>
             </div> */}
@@ -176,7 +184,7 @@ class SongDetails extends React.Component {
           );
         } else {
           return (
-            <div class="main">
+            <div className="main">
               <h1>There is no active device</h1>
               <h2>
                 If the local device has been activated, press the space key to
@@ -187,7 +195,7 @@ class SongDetails extends React.Component {
         }
       } else {
         return (
-          <div class="main">
+          <div className="main">
             <h1 id="title">
               Spoti<span id="Vi-title">Vi</span>
             </h1>
@@ -197,11 +205,11 @@ class SongDetails extends React.Component {
                 value="Log in with Spotify"
                 name="Submit"
                 id="login-button"
-                class="btn btn-secondary btn-lg"
+                className="btn btn-secondary btn-lg"
               />
             </form>
 
-            <div class="disclosure">
+            <div className="disclosure">
               <h6>Made by Russell Islam</h6>
               <h6>I am not a UX designer by any means</h6>
             </div>
