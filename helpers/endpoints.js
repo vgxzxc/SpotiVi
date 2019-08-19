@@ -218,9 +218,11 @@ router.get("/player/playerstate", (req, res) => {
         songName: null,
         songArtists: [],
         songAlbum: null,
-        songImageURL: null
+        songImageURL: null,
+        device_id: null
       };
 
+      info["device_id"] = result["device"]["id"];
       info["shuffle"] = result["shuffle_state"];
       info["repeat"] = result["repeat_state"];
       info["playing"] = result["is_playing"];
