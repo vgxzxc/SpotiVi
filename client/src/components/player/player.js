@@ -161,7 +161,7 @@ class SongPlayer extends React.Component {
             <div className="main">
               <div>
                 <img src={this.state.songImageURL} id="albumImage" />
-                <hr />
+                <hr/>
                 <h1 id="songName">{this.state.songName}</h1>
                 <h2 id="songArtists">{this.formatArtists()}</h2>
                 <h2 id="songAlbum">{this.state.songAlbum}</h2>
@@ -175,16 +175,17 @@ class SongPlayer extends React.Component {
               </div>
 
               {/* <div className="status-line">
-              <div className="help">
-                <h6>Press "?" for Help</h6>
-              </div>
-            </div> */}
+                <div className="help">
+                  <h6>Press "?" for Help</h6>
+                </div>
+              </div> */}
             </div>
           );
         } else {
           return (
             <div className="main">
               <h1>There is no active device</h1>
+              <h2>The device has probably timed out due to inactivity</h2>
               <h2>
                 If the local device has been activated, press the space key to
                 resume playback
