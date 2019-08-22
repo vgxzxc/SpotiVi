@@ -1,1 +1,44 @@
-# practice_ws
+# SpotiVi
+
+A custom made Spotify Web Client/Interface which provides functionality using Vim hotkeys.
+
+## Getting Started
+
+### Prerequisites
+To use this, you need
+* Node.js (version 10 or above)
+* Chrome (this is the best browser to use for this)
+
+### Installation
+In order to use this with your Spotify account, we need to setup a Spotify app within your account which will allow this app to communicate with your account. To do this, do the following steps.
+1. Go to the Spotify API Dashboard: https://developer.spotify.com/dashboard/ and log in
+2. In the top right, there will be a "Create a Client ID" button. Click that
+3. Fill out the following info, putting in honestly anything you want. To make it easy to remember, the name could be made "SpotiVi"
+4. For the "What are you building?" option, it's easiest to put "I don't know" as it's not a commerical app anyways
+5. Once created, it will redirect you to your app dashboard. You will see your Client ID and Client Secret tokens. 
+6. In the `helpers/endpoints.js` file, there are two variables near the top of the file: `client_id` and  `client_secret`. Fill these in with the tokens from the dashboard.
+7. Navigate to the root directory and run `npm install`. Once completed, navigate into the `client` directory and run `npm install`'
+8. Now the app is finished installing. To launch it, navigate to the root directory and run the command `npm run dev`. This will launch the app in your default browser.
+9. In order for the app to know which Spotify client to interact with, you will need to launch Spotify on your system and play any song. This will let Spotify know that there is an active device and the app will use cookies to remember that this is the device to be used from hereon. 
+
+### Using SpotiVi
+Currently, there are a few Vim hotkeys that are implemented, which provides the core functionality
+* `space`: Play/pause current track
+* `l`: Play next track
+* `h`: Start from beginning of track or play previous track
+* `s`: Toggle shuffle on or off
+* `r`: Toggle between no repeat, context repeat or track repeat
+
+### Future Plans
+Currently, the app only supports usage with a single playlist. In the future, I would like to add the following functionality:
+* Ability to select playlists
+* Ability to search for music
+* Ability to go to the first song in the current playlist (Kind of equivalent to the `gg` command in Vim)
+
+### Built With
+* Node.js for handling all of the requests
+* React (create-react-app) for the front-end
+* Spotify Web API to communicate with Spotify
+
+### Why did I Make This?
+As a Vim user, my least favourite thing in the world is to take my hands off my keyboard to do anything. Coding? I use Vim. Navigating Chrome? I use this amazing Chrome extension called Vimium. But everytime I'm coding and listening to music on Spotify, I instinctively press alt+tab and try to press the 'L' key (which is used in Vim to move the cursor to the right) to try and change the song. But it's infuriating that no matter how many times I press the 'L' key, nothing happens. So I did what any logical developer would do, spend like 89 hours making something that would save me like 4 seconds. So here it is.
