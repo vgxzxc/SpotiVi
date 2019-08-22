@@ -43,3 +43,7 @@ Currently, the app only supports usage with a single playlist. In the future, I 
 
 ### Why did I Make This?
 As a Vim user, my least favourite thing in the world is to take my hands off my keyboard to do anything. Coding? I use Vim. Navigating Chrome? I use this amazing Chrome extension called Vimium. But everytime I'm coding and listening to music on Spotify, I instinctively press alt+tab and try to press the 'L' key (which is used in Vim to move the cursor to the right) to try and change the song. But it's infuriating that no matter how many times I press the 'L' key, nothing happens. So I did what any logical developer would do, spend like 89 hours making something that would save me like 4 seconds. So here it is.
+
+### License
+
+This project is licensed under the MIT License
