@@ -1,6 +1,6 @@
 # SpotiVi
 
-A custom made Spotify Web Client/Interface which provides functionality using Vim hotkeys.
+A custom made Spotify Web Client/Interface using the Spotify Web API which provides music playback functionality using Vim hotkeys.
 
 ## Getting Started
 
@@ -8,6 +8,7 @@ A custom made Spotify Web Client/Interface which provides functionality using Vi
 To use this, you need
 * Node.js (version 10 or above)
 * Chrome (this is the best browser to use for this)
+* A Spotify Premium Account
 
 ### Installation
 In order to use this with your Spotify account, we need to setup a Spotify app within your account which will allow this app to communicate with your account. To do this, do the following steps.
