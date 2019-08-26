@@ -8,8 +8,8 @@ const express      = require("express"),
 
 const router = express.Router();
 
-const client_id = "6887d234af53474bb73e2fc0811b0125";
-const client_secret = "5ddc3339f3df4ce8a11912be0ac98a0b";
+const client_id = "";
+const client_secret = "";
 const redirect_uri = "http://localhost:8888/callback";
 
 const stateKey = "spotify_auth_state";
