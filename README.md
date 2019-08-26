@@ -2,8 +2,6 @@
 
 A custom made Spotify Web Client/Interface using the Spotify Web API which provides music playback functionality using Vim hotkeys.
 
-## Getting Started
-
 ### Prerequisites
 To use this, you need
 * Node.js (version 10 or above)
@@ -23,7 +21,7 @@ In order to use this with your Spotify account, we need to setup a Spotify app w
 9. In order for the app to know which Spotify client to interact with, you will need to launch Spotify on your system and play any song. This will let Spotify know that there is an active device and the app will use cookies to remember that this is the device to be used from hereon. 
 
 ### Using SpotiVi
-Currently, there are a few Vim hotkeys that are implemented, which provides the core functionality
+Once logged in, you will be redirected to the main player, which will display the player details. There are no clickable buttons, everything is used through hotkeys. Currently, there are a few Vim hotkeys that are implemented, which provides the core functionality:
 * `space`: Play/pause current track
 * `l`: Play next track
 * `h`: Start from beginning of track or play previous track
@@ -42,8 +40,7 @@ Currently, the app only supports usage with a single playlist. In the future, I 
 * Spotify Web API to communicate with Spotify
 
 ### Why did I Make This?
-As a Vim user, my least favourite thing in the world is to take my hands off my keyboard to do anything. Coding? I use Vim. Navigating Chrome? I use this amazing Chrome extension called Vimium. But everytime I'm coding and listening to music on Spotify, I instinctively press alt+tab and try to press the 'L' key (which is used in Vim to move the cursor to the right) to try and change the song. But it's infuriating that no matter how many times I press the 'L' key, nothing happens. So I did what any logical developer would do, spend like 89 hours making something that would save me like 4 seconds. So here it is.
+As a Vim user, my least favourite thing in the world is to take my hands off my keyboard to do anything. Coding? I use Vim. Navigating Chrome? I use this amazing Chrome extension called [Vimium](https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en). But everytime I'm coding and listening to music on Spotify, I instinctively press `alt+tab` and try to press the `L` key (which is used in Vim to move the cursor to the right) to try and change the song. But it's infuriating that no matter how many times I press the `L` key, nothing happens. So I did what any logical developer would do, spend like 89 hours making something that would save me like 4 seconds.
 
 ### License
-
 This project is licensed under the MIT License
