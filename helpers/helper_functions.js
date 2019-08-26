@@ -59,7 +59,7 @@ let delay = () => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(42);
-    }, 250);
+    }, 150);
   });
 }
 

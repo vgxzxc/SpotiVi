@@ -9,7 +9,7 @@
     "start": "node app.js",
     "server": "nodemon app.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \" npm run client\" --ignore client"
+    "spotivi": "concurrently \"npm run server\" \" npm run client\" --ignore client"
   },
   "author": "Russell",
   "license": "ISC",
