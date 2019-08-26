@@ -1,4 +1,4 @@
-let request = require("request");
+const request = require("request");
 
 let getCurrentPlayerState = access_token => {
   let getOptions = {

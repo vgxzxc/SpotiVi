@@ -1,11 +1,11 @@
-const express = require("express"),
-  bodyParser = require("body-parser"),
-  request = require("request"),
-  cors = require("cors"),
-  querystring = require("querystring"),
-  cookieParser = require("cookie-parser"),
-  keypress = require("keypress"),
-  path = require("path");
+const express      = require("express"),
+      bodyParser   = require("body-parser"),
+      request      = require("request"),
+      cors         = require("cors"),
+      querystring  = require("querystring"),
+      cookieParser = require("cookie-parser"),
+      keypress     = require("keypress"),
+      path         = require("path");
 
 const app = express();
 const routes = require("./helpers/endpoints");
@@ -19,5 +19,4 @@ app
 
 app.use(routes);
 
-console.log("Listening on port 8888");
-app.listen(8888);
+app.listen(8888, () => { console.log("Listening on port 8888") });
