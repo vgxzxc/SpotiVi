@@ -21,7 +21,7 @@ In order to use this with your Spotify account, we need to setup a Spotify app w
 9. In order for the app to know which Spotify client to interact with, you will need to launch Spotify on your system and play any song. This will let Spotify know that there is an active device and the app will use cookies to remember that this is the device to be used from hereon. 
 
 ### Using SpotiVi
-Once logged in, you will be redirected to the main player, which will display the player details. There are no clickable buttons, everything is used through hotkeys. Currently, there are a few Vim hotkeys that are implemented, which provides the core functionality:
+Once logged in, you will be redirected to the main player, which will display the player details. There are no clickable buttons, everything is used through hotkeys (so if you want to force yourself to get used to the hand placement on your keyboard, this might help). Currently, there are a few Vim hotkeys that are implemented, which provides the core functionality:
 * `space`: Play/pause current track
 * `l`: Play next track
 * `h`: Start from beginning of track or play previous track
