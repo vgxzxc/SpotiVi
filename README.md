@@ -1,6 +1,6 @@
 # SpotiVi
 
-A custom made Spotify Web Client/Interface using the Spotify Web API which provides music playback functionality using Vim hotkeys.
+A custom made Spotify web client/interface using the Spotify Web API which provides music playback functionality using Vim hotkeys.
 
 ### Prerequisites
 To use this, you need
