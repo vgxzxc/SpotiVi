@@ -31,6 +31,8 @@ Once logged in, you will be redirected to the main player, which will display th
 * `s`: Toggle shuffle on or off
 * `r`: Toggle between no repeat, context repeat or track repeat
 
+To quit the app, it's easiest to just terminate the node process in your console.
+
 ### Future Plans
 Currently, the app only supports usage with a single playlist. In the future, I would like to add the following functionality:
 * Ability to select playlists
