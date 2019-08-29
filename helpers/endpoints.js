@@ -1,10 +1,10 @@
-const express      = require("express"),
-  request          = require("request"),
-  querystring      = require("querystring"),
-  keypress         = require("keypress"),
-  path             = require("path"),
-  commands         = require("./command"),
-  helperFuncs      = require("./helper_functions");
+const express          = require("express"),
+      request          = require("request"),
+      querystring      = require("querystring"),
+      keypress         = require("keypress"),
+      path             = require("path"),
+      commands         = require("./command"),
+      helperFuncs      = require("./helper_functions");
 
 const router = express.Router();
 
@@ -145,37 +145,6 @@ router.post("/command", async (req, res) => {
     result => res.json(result),
     rejection => res.json(rejection));
 
-  // getPlayerStateInfo.then(
-  //   result => {
-  //     let info = {
-  //       shuffle: null,
-  //       repeat: null,
-  //       playing: null,
-  //       songName: null,
-  //       songArtists: [],
-  //       songAlbum: null,
-  //       songImageURL: null,
-  //       device_id: null
-  //     };
-
-  //     info["device_id"] = result["device"]["id"];
-  //     info["shuffle"] = result["shuffle_state"];
-  //     info["repeat"] = result["repeat_state"];
-  //     info["playing"] = result["is_playing"];
-
-  //     info["songName"] = result["item"]["name"];
-  //     result["item"]["artists"].forEach(item => {
-  //       info["songArtists"].push(item["name"]);
-  //     });
-  //     info["songAlbum"] = result["item"]["album"]["name"];
-  //     info["songImageURL"] = result["item"]["album"]["images"][0]["url"];
-
-  //     res.json(info);
-  //   },
-  //   err => {
-  //     res.json(err);
-  //   }
-  // );
 });
 
 router.get("/player/playerstate", (req, res) => {
@@ -183,37 +152,6 @@ router.get("/player/playerstate", (req, res) => {
   getPlayerStateInfo.then(
     result => res.json(result),
     rejection => res.json(rejection));
-  // getPlayerStateInfo.then(
-  //   result => {
-  //     let info = {
-  //       shuffle: null,
-  //       repeat: null,
-  //       playing: null,
-  //       songName: null,
-  //       songArtists: [],
-  //       songAlbum: null,
-  //       songImageURL: null,
-  //       device_id: null
-  //     };
-
-  //     info["device_id"] = result["device"]["id"];
-  //     info["shuffle"] = result["shuffle_state"];
-  //     info["repeat"] = result["repeat_state"];
-  //     info["playing"] = result["is_playing"];
-
-  //     info["songName"] = result["item"]["name"];
-  //     result["item"]["artists"].forEach(item => {
-  //       info["songArtists"].push(item["name"]);
-  //     });
-  //     info["songAlbum"] = result["item"]["album"]["name"];
-  //     info["songImageURL"] = result["item"]["album"]["images"][0]["url"];
-
-  //     res.json(info);
-  //   },
-  //   err => {
-  //     res.json(err);
-  //   }
-  // );
 });
 
 router.get("/isAuthorized", (req, res) => {
