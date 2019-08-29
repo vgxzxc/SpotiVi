@@ -16,9 +16,10 @@ In order to use this with your Spotify account, we need to setup a Spotify app w
 4. For the "What are you building?" option, it's easiest to put "I don't know" as it's not a commerical app anyways
 5. Once created, it will redirect you to your app dashboard. You will see your Client ID and Client Secret tokens. 
 6. In the `helpers/endpoints.js` file, there are two variables near the top of the file: `client_id` and  `client_secret`. Fill these in with the tokens from the dashboard.
-7. Navigate to the root directory and run `npm install`. Once completed, navigate into the `client` directory and also run `npm install`
-8. Now the app is finished installing. To launch it, navigate to the root directory and run the command `npm run spotivi`. This will launch the app in your default browser.
-9. In order for the app to know which Spotify client to interact with, you will need to launch Spotify on your system and play any song. This will let Spotify know that there is an active device and the app will use cookies to remember that this is the device to be used from hereon. 
+7. Go back to the dashboard and click the "Edit Settings" button on the right of the screen. In the "Redirect URIs" field, enter `http://localhost:8888/callback` and add it to the app. The required setup on the Spotify API side is done.
+8. Navigate to the root directory and run `npm install`. Once completed, navigate into the `client` directory and also run `npm install`
+9. Now the app is finished installing. To launch it, navigate to the root directory and run the command `npm run spotivi`. This will launch the app in your default browser.
+10. In order for the app to know which Spotify client to interact with, you will need to launch Spotify on your system and play any song. This will let Spotify know that there is an active device and the app will use cookies to remember that this is the device to be used from hereon. 
 
 ### Using SpotiVi
 To use the app, similar to the installation step, navigate to the root directory and run the command `npm run spotivi`. This will open it in your default browser.
