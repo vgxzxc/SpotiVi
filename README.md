@@ -2,6 +2,8 @@
 
 A custom made Spotify web client/interface using the Spotify Web API which provides music playback functionality using Vim hotkeys.
 
+![Alt text](./preview.png?raw=true "Preview")
+
 ### Prerequisites
 To use this, you need
 * Node.js (version 10 or above)
