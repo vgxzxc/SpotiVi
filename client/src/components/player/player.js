@@ -199,7 +199,7 @@ class SongPlayer extends React.Component {
             <h1 id="title">
               Spoti<span id="Vi-title">Vi</span>
             </h1>
-            <form action="http://localhost:8888/login" method="get">
+            <form action="http://localhost:7900/login" method="get">
               <input
                 type="submit"
                 value="Log in with Spotify"
