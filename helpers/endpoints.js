@@ -10,7 +10,7 @@ const router = express.Router();
 
 const client_id = "";
 const client_secret = "";
-const redirect_uri = "http://localhost:8888/callback";
+const redirect_uri = "http://localhost:7900/callback";
 
 const stateKey = "spotify_auth_state";
 
